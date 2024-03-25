@@ -82,7 +82,7 @@ onMounted(async () => {
         ctx.drawImage(image, 0, 0);
 
         const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
-        console.log('imgsrc --->', imgsrc)
+        console.log('imgsrc --->')
         let file = blobToFile(dataURItoBlob(imgsrc), `file-${item}`);
         imgs.value.push(file);
 
