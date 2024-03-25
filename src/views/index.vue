@@ -65,7 +65,14 @@ const blobToFile = (theBlob, fileName) => {
   theBlob.name = fileName;
   return theBlob;
 };
-
+const base64ToBlob = (url, type) => {
+   const dataBin = atob(url.split(',')[1])
+   const buffer = new Uint8Array(dataBin.length)
+   for (let i = 0; i < dataBin.length; i++) {
+       buffer[i] = dataBin.charCodeAt(i)
+   }
+   return new Blob([buffer.buffer], { type })
+}
 onMounted(async () => {
   setTimeout(() => {
     for (let item of [1, 2, 3]) {
@@ -81,28 +88,28 @@ onMounted(async () => {
       image.onload = async () => {
         ctx.drawImage(image, 0, 0);
 
-        // const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
-        // console.log('imgsrc --->')
-        // let file = blobToFile(dataURItoBlob(imgsrc), `file-${item}`);
-        // imgs.value.push(file);
+        const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
+        console.log('imgsrc --->', imgsrc.slice(0, 11))
+        let file = blobToFile(base64ToBlob(imgsrc), `file-${item}`);
+        imgs.value.push(file);
 
         // 这里可以对file进行后续操作，比如上传到服务器等
-        // console.log("File generated:", file);
+        console.log("File generated:", file);
         // 将Canvas转换为Blob对象
-        canvas.toBlob(function (blob) {
+        // canvas.toBlob(function (blob) {
 
-            console.log('start to to Blob --->', blob)
-          // 创建一个File对象
-          var file = new File([blob], `canvas_image${item}.png`, {
-            type: "image/png",
-          });
+        //     console.log('start to to Blob --->', blob)
+        //   // 创建一个File对象
+        //   var file = new File([blob], `canvas_image${item}.png`, {
+        //     type: "image/png",
+        //   });
 
 
-          imgs.value.push(file);
+        //   imgs.value.push(file);
 
-          // 这里可以对file进行后续操作，比如上传到服务器等
-          console.log("File generated:", file);
-        });
+        //   // 这里可以对file进行后续操作，比如上传到服务器等
+        //   console.log("File generated:", file);
+        // });
       };
       image.src = imageSrc;
     }
