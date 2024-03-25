@@ -76,7 +76,7 @@ onMounted(async () => {
     };
     image.src = imageSrc
   }
-    }, 50000);
+    }, 5000);
  
 });
 
