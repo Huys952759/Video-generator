@@ -81,25 +81,26 @@ onMounted(async () => {
       image.onload = async () => {
         ctx.drawImage(image, 0, 0);
 
-        const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
-        console.log('imgsrc --->')
-        let file = blobToFile(dataURItoBlob(imgsrc), `file-${item}`);
-        imgs.value.push(file);
+        // const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
+        // console.log('imgsrc --->')
+        // let file = blobToFile(dataURItoBlob(imgsrc), `file-${item}`);
+        // imgs.value.push(file);
 
         // 这里可以对file进行后续操作，比如上传到服务器等
-        console.log("File generated:", file);
+        // console.log("File generated:", file);
         // 将Canvas转换为Blob对象
-        // canvas.toBlob(function (blob) {
-        //   // 创建一个File对象
-        //   var file = new File([blob], `canvas_image${item}.png`, {
-        //     type: "image/png",
-        //   });
+        canvas.toBlob(function (blob) {
+          // 创建一个File对象
+          var file = new File([blob], `canvas_image${item}.png`, {
+            type: "image/png",
+          });
+          console.log('start to to Blob')
 
-        //   imgs.value.push(file);
+          imgs.value.push(file);
 
-        //   // 这里可以对file进行后续操作，比如上传到服务器等
-        //   console.log("File generated:", file);
-        // });
+          // 这里可以对file进行后续操作，比如上传到服务器等
+          console.log("File generated:", file);
+        });
       };
       image.src = imageSrc;
     }
