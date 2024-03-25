@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <UploadFile @change="changeFile" />
+    <img src="../../src//assets/imgBackground-1.png" />
+    <img src="../../src//assets/imgBackground-2.png" />
+    <img src="../../src//assets/imgBackground-3.png" />
     <div class="form">
       <button
         @click="imgToVideo"
