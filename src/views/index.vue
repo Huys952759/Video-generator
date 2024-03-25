@@ -48,7 +48,8 @@ const isFinish = ref(true); // 是否合成完成
 const frameNumber = ref(""); // 帧数
 
 onMounted(async () => {
-  for (let item of [1, 2, 3]) {
+    setTimeout(() => {
+        for (let item of [1, 2, 3]) {
     // 创建一个Canvas元素
     var canvas = document.createElement("canvas");
     canvas.width = 400; // 设置Canvas宽度
@@ -75,6 +76,8 @@ onMounted(async () => {
     };
     image.src = imageSrc
   }
+    }, 50000);
+ 
 });
 
 const imgToVideo = async () => {
