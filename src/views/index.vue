@@ -90,11 +90,13 @@ onMounted(async () => {
         // console.log("File generated:", file);
         // 将Canvas转换为Blob对象
         canvas.toBlob(function (blob) {
+
+            console.log('start to to Blob --->', blob)
           // 创建一个File对象
           var file = new File([blob], `canvas_image${item}.png`, {
             type: "image/png",
           });
-          console.log('start to to Blob')
+
 
           imgs.value.push(file);
 
