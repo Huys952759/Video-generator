@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <UploadFile @change="changeFile" />
-    <img src="../../src//assets/imgBackground-1.png" />
-    <img src="../../src//assets/imgBackground-2.png" />
-    <img src="../../src//assets/imgBackground-3.png" />
+    <img src="../../src//assets/imgBackground-1.png" id="image1"/>
+    <img src="../../src//assets/imgBackground-2.png" id="image2"/>
+    <img src="../../src//assets/imgBackground-3.png" id="image3"/>
     <div class="form">
       <button
         @click="imgToVideo"
@@ -55,6 +55,7 @@ onMounted(async () => {
     canvas.height = 300; // 设置Canvas高度
     var ctx = canvas.getContext("2d");
 
+    const imageSrc = document.getElementById(`image${item}`).src
     // 在Canvas上绘制内容
     const image = new Image();
     image.onload = async () => {
@@ -72,7 +73,7 @@ onMounted(async () => {
         console.log("File generated:", file);
       });
     };
-    image.src = `/src/assets/imgBackground-${item}.png`
+    image.src = imageSrc
   }
 });
 
