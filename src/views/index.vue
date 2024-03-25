@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <UploadFile @change="changeFile" />
-    <img src="../../src//assets/imgBackground-1.png" id="image1"/>
-    <img src="../../src//assets/imgBackground-2.png" id="image2"/>
-    <img src="../../src//assets/imgBackground-3.png" id="image3"/>
+    <img src="../../src//assets/imgBackground-1.png" id="image1" />
+    <img src="../../src//assets/imgBackground-2.png" id="image2" />
+    <img src="../../src//assets/imgBackground-3.png" id="image3" />
     <div class="form">
       <button
         @click="imgToVideo"
@@ -47,37 +47,63 @@ const loggerText = ref(""); //合成日志
 const isFinish = ref(true); // 是否合成完成
 const frameNumber = ref(""); // 帧数
 
+const dataURItoBlob = (dataURI) => {
+  let arr = dataURI.split(",");
+  let mime = arr[0].match(/:(.*?);/)[1];
+  let bstr = atob(arr[1]);
+  let n = bstr.length;
+  let u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], {
+    type: mime,
+  });
+};
+const blobToFile = (theBlob, fileName) => {
+  theBlob.lastModifiedDate = new Date();
+  theBlob.name = fileName;
+  return theBlob;
+};
+
 onMounted(async () => {
-    setTimeout(() => {
-        for (let item of [1, 2, 3]) {
-    // 创建一个Canvas元素
-    var canvas = document.createElement("canvas");
-    canvas.width = 400; // 设置Canvas宽度
-    canvas.height = 300; // 设置Canvas高度
-    var ctx = canvas.getContext("2d");
+  setTimeout(() => {
+    for (let item of [1, 2, 3]) {
+      // 创建一个Canvas元素
+      var canvas = document.createElement("canvas");
+      canvas.width = 400; // 设置Canvas宽度
+      canvas.height = 300; // 设置Canvas高度
+      var ctx = canvas.getContext("2d");
 
-    const imageSrc = document.getElementById(`image${item}`).src
-    // 在Canvas上绘制内容
-    const image = new Image();
-    image.onload = async () => {
-      ctx.drawImage(image, 0, 0);
-      // 将Canvas转换为Blob对象
-      canvas.toBlob(function (blob) {
-        // 创建一个File对象
-        var file = new File([blob], `canvas_image${item}.png`, {
-          type: "image/png",
-        });
+      const imageSrc = document.getElementById(`image${item}`).src;
+      // 在Canvas上绘制内容
+      const image = new Image();
+      image.onload = async () => {
+        ctx.drawImage(image, 0, 0);
 
-        imgs.value.push(file)
+        const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
+        console.log('imgsrc --->', imgsrc)
+        let file = blobToFile(dataURItoBlob(imgsrc), `file-${item}`);
+        imgs.value.push(file);
 
         // 这里可以对file进行后续操作，比如上传到服务器等
         console.log("File generated:", file);
-      });
-    };
-    image.src = imageSrc
-  }
-    }, 5000);
- 
+        // 将Canvas转换为Blob对象
+        // canvas.toBlob(function (blob) {
+        //   // 创建一个File对象
+        //   var file = new File([blob], `canvas_image${item}.png`, {
+        //     type: "image/png",
+        //   });
+
+        //   imgs.value.push(file);
+
+        //   // 这里可以对file进行后续操作，比如上传到服务器等
+        //   console.log("File generated:", file);
+        // });
+      };
+      image.src = imageSrc;
+    }
+  }, 5000);
 });
 
 const imgToVideo = async () => {
@@ -86,7 +112,7 @@ const imgToVideo = async () => {
   }
 
   for (let i in imgs.value) {
-    console.log('i --->', i, )
+    console.log("i --->", i);
     ffmpeg.FS("writeFile", `${i}.png`, await fetchFile(imgs.value[i]));
   }
 
