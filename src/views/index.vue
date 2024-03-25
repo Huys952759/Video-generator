@@ -98,6 +98,8 @@ onMounted(async () => {
         for (var i = 0; i < byteString.length; i++) {
           ia[i] = byteString.charCodeAt(i);
         }
+        console.log('ab -->', ab)
+        console.log('mimeString --->', mimeString)
         var blob = new Blob([ab], { type: mimeString });
         console.log("Blob generated:", blob);
         // 创建一个File对象
