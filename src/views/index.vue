@@ -132,7 +132,9 @@ onMounted(async () => {
 
 const imgToVideo = async () => {
   if (!ffmpeg.isLoaded()) {
+    console.log('start to load ffmpeg -->')
     await ffmpeg.load();
+    console.log('load ffmpeg successfully --->')
   }
 
   for (let i in imgs.value) {
