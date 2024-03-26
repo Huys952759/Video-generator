@@ -137,6 +137,7 @@ const imgToVideo = async () => {
 
   for (let i in imgs.value) {
     console.log("i --->", i);
+    console.log('await fetchFile --->', await fetchFile(imgs.value[i]))
     ffmpeg.FS("writeFile", `${i}.png`, await fetchFile(imgs.value[i]));
   }
 
