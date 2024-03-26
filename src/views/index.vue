@@ -89,27 +89,27 @@ onMounted(async () => {
         ctx.drawImage(image, 0, 0);
 
         const imgsrc = canvas.toDataURL("image/png"); // 截取后的视频封面
-        console.log("imgsrc --->", imgsrc.slice(0, 15));
+        console.log("imgsrc --->", imgsrc.slice(0, 20));
         // 解析Data URL并创建Blob对象
-        var byteString = atob(imgsrc.split(",")[1]);
-        var mimeString = imgsrc.split(",")[0].split(":")[1].split(";")[0];
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-        console.log('ab -->', ab)
-        console.log('mimeString --->', mimeString)
-        var blob = new Blob([ab], { type: mimeString });
-        console.log("Blob generated:", blob);
-        // 创建一个File对象
-        var file = new File([blob], `canvas_image${item}.png`, {
-          type: "image/png",
-        });
-        imgs.value.push(file);
+        // var byteString = atob(imgsrc.split(",")[1]);
+        // var mimeString = imgsrc.split(",")[0].split(":")[1].split(";")[0];
+        // var ab = new ArrayBuffer(byteString.length);
+        // var ia = new Uint8Array(ab);
+        // for (var i = 0; i < byteString.length; i++) {
+        //   ia[i] = byteString.charCodeAt(i);
+        // }
+        // console.log('ab -->', ab)
+        // console.log('mimeString --->', mimeString)
+        // var blob = new Blob([ab], { type: mimeString });
+        // console.log("Blob generated:", blob);
+        // // 创建一个File对象
+        // var file = new File([blob], `canvas_image${item}.png`, {
+        //   type: "image/png",
+        // });
+        imgs.value.push(imgsrc);
 
         // 这里可以对file进行后续操作，比如上传到服务器等
-        console.log("File generated:", file);
+        // console.log("File generated:", file);
         // 将Canvas转换为Blob对象
         // canvas.toBlob(function (blob) {
 
